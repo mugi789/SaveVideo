@@ -1,3 +1,4 @@
+from regex import F
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -45,7 +46,7 @@ def pilihan():
             get = requests.post('https://savevideo.me/en/get/', data=isi, headers=sirah)
             try:
                 filename = BeautifulSoup(get.text, 'html.parser').find_all(href=True)[0]
-                video = requests.get(filename['href'], stream=True)
+                video = requests.get(filename['href'], stream=True, verify=False)
                 ukuran = int(video.headers.get('content-length', 0))
                 block_size = 1024
                 progress_bar = tqdm(total=ukuran, unit='iB', unit_scale=True)
@@ -69,7 +70,7 @@ def pilihan():
                     get = requests.post('https://savevideo.me/en/get/', data=isi, headers=sirah)
                     try:
                         filename = BeautifulSoup(get.text, 'html.parser').find_all(href=True)[0]
-                        video = requests.get(filename['href'], stream=True)
+                        video = requests.get(filename['href'], stream=True, verify=False)
                         ukuran = int(video.headers.get('content-length', 0))
                         block_size = 1024
                         progress_bar = tqdm(total=ukuran, unit='iB', unit_scale=True)
